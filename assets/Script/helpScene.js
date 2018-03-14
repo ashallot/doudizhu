@@ -15,7 +15,7 @@ cc.Class({
 
     backClick(event) {
       console.log("back");
-      cc.director.loadScene("loginScene");
+      cc.director.loadScene("login");
     }
   });
   

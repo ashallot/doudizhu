@@ -98,6 +98,7 @@ cc.Class({
   },
   helpClick(event) {
     console.log("help");
+    cc.director.loadScene("help");
   },
   confirmClick(event) {
     console.log("confirm");
