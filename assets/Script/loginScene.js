@@ -1,19 +1,19 @@
+var com = require('Common');  
 cc.Class({
   extends: cc.Component,
 
   properties: {
-    userinfo: [],
-    user_reinfo: [],
-
-    // userinfo: {
-    //   userid: 0,
-    //   pwd: "",
-    // },
-    // user_reinfo: {
-    //   userid_re: 0,
-    //   pwd_re1: "",
-    //   pwd_re2: "",
-    // },
+    userinfo: {
+      default:null,
+      userid: 0,
+      pwd: "",
+    },
+    user_reinfo: {
+      default:null,
+      userid_re: 0,
+      pwd_re1: "",
+      pwd_re2: "",
+    },
     timer: function() {},
 
     btn_login: cc.Button,
@@ -47,6 +47,7 @@ cc.Class({
     this.input_zhanghao_re.node.on("editbox", this.zhanghao_reInput, this);
     this.input_pwd_re1.node.on("editbox", this.pwd_re1Input, this);
     this.input_pwd_re2.node.on("editbox", this.pwd_re2Input, this);
+
   },
 
   // called every frame
@@ -78,16 +79,21 @@ cc.Class({
 
     // http
 
-    // var userData = {
-    //   userid: 12345678,
-    //   core: 100,
-    //   roomid: 0
-    // };
-    // cc.sys.localStorage.setItem('userData', JSON.stringify(userData));
+    var userData = {
+      userid: this.userinfo.userid,
+      core: 100,
+      roomid: 0,
+      isLogin:true,
+      sceneType:0
+    };
 
-    // var user = JSON.parse(cc.sys.localStorage.getItem('userData'));
+    com.data = userData;
 
-    // console.log(user);
+    
+    if(com.data.isLogin == true){
+      cc.director.loadScene("index");
+    }
+
   },
   registerClick(event) {
     this.node.children[4].active = false;
@@ -95,6 +101,7 @@ cc.Class({
   },
   settingClick(event) {
     console.log("setting");
+    cc.director.loadScene("setting");
   },
   helpClick(event) {
     console.log("help");
@@ -133,6 +140,7 @@ cc.Class({
     }
 
     // http
+    // isRegister false/true  注册是否成功
   },
   fanhuiClick(event) {
     console.log("fanhui");
