@@ -1,20 +1,19 @@
-var com = require('Common');  
+var com = require("Common");
 cc.Class({
   extends: cc.Component,
 
   properties: {
     userinfo: {
-      default:null,
+      default: null,
       userid: 0,
-      pwd: "",
+      pwd: ""
     },
     user_reinfo: {
-      default:null,
+      default: null,
       userid_re: 0,
       pwd_re1: "",
-      pwd_re2: "",
+      pwd_re2: ""
     },
-    timer: function() {},
 
     btn_login: cc.Button,
     btn_register: cc.Button,
@@ -47,7 +46,6 @@ cc.Class({
     this.input_zhanghao_re.node.on("editbox", this.zhanghao_reInput, this);
     this.input_pwd_re1.node.on("editbox", this.pwd_re1Input, this);
     this.input_pwd_re2.node.on("editbox", this.pwd_re2Input, this);
-
   },
 
   // called every frame
@@ -59,41 +57,33 @@ cc.Class({
     if (!this.userinfo.userid) {
       this.node.children[5].children[0]._components[0].string = "请输入账号！";
       this.node.children[5].active = true;
-      this.timer = setTimeout(() => {
-        this.node.children[5].active = false;
-      }, 1000);
+      this.timer();
     } else if (this.userinfo.userid.toString().length != 8) {
       this.node.children[5].children[0]._components[0].string =
         "请输入8位账号！";
       this.node.children[5].active = true;
-      this.timer = setTimeout(() => {
-        this.node.children[5].active = false;
-      }, 1000);
+      this.timer();
     } else if (!this.userinfo.pwd) {
       this.node.children[5].children[0]._components[0].string = "请输入密码！";
       this.node.children[5].active = true;
-      this.timer = setTimeout(() => {
-        this.node.children[5].active = false;
-      }, 1000);
+      this.timer();
+    } else {
+      // http
+
+      var userData = {
+        userid: this.userinfo.userid,
+        core: 100,
+        roomid: 0,
+        isLogin: true,
+        sceneType: 0
+      };
+
+      com.data = userData;
+
+      if (com.data.isLogin == true) {
+        cc.director.loadScene("index");
+      }
     }
-
-    // http
-
-    var userData = {
-      userid: this.userinfo.userid,
-      core: 100,
-      roomid: 0,
-      isLogin:true,
-      sceneType:0
-    };
-
-    com.data = userData;
-
-    
-    if(com.data.isLogin == true){
-      cc.director.loadScene("index");
-    }
-
   },
   registerClick(event) {
     this.node.children[4].active = false;
@@ -101,10 +91,12 @@ cc.Class({
   },
   settingClick(event) {
     console.log("setting");
+    com.data.sceneType = 0;
     cc.director.loadScene("setting");
   },
   helpClick(event) {
     console.log("help");
+    com.data.sceneType = 0;
     cc.director.loadScene("help");
   },
   confirmClick(event) {
@@ -113,30 +105,22 @@ cc.Class({
     if (!this.user_reinfo.userid_re) {
       this.node.children[5].children[0]._components[0].string = "请输入账号！";
       this.node.children[5].active = true;
-      this.timer = setTimeout(() => {
-        this.node.children[5].active = false;
-      }, 1000);
+      this.timer();
     } else if (this.user_reinfo.userid_re.toString().length != 8) {
       this.node.children[5].children[0]._components[0].string =
         "请输入8位账号！";
       this.node.children[5].active = true;
-      this.timer = setTimeout(() => {
-        this.node.children[5].active = false;
-      }, 1000);
+      this.timer();
     } else if (!this.user_reinfo.pwd_re1 || !this.user_reinfo.pwd_re2) {
       this.node.children[5].children[0]._components[0].string =
         "请输入两次密码！";
       this.node.children[5].active = true;
-      this.timer = setTimeout(() => {
-        this.node.children[5].active = false;
-      }, 1000);
+      this.timer();
     } else if (this.user_reinfo.pwd_re1 != this.user_reinfo.pwd_re2) {
       this.node.children[5].children[0]._components[0].string =
         "两次密码不一致！";
       this.node.children[5].active = true;
-      this.timer = setTimeout(() => {
-        this.node.children[5].active = false;
-      }, 1000);
+      this.timer();
     }
 
     // http
@@ -162,5 +146,10 @@ cc.Class({
   },
   pwd_re2Input: function(text, editbox, customEventData) {
     this.user_reinfo.pwd_re2 = text;
+  },
+  timer:function(){
+    setTimeout(() => {
+      this.node.children[5].active = false;
+    }, 1000);
   }
 });

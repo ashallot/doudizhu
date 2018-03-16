@@ -53,6 +53,6 @@ cc.Class({
 
     },
     enterClick(event){
-
+        cc.director.loadScene("findroom");
     },
 });
