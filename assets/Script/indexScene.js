@@ -28,6 +28,9 @@ cc.Class({
 
         this.data = com.data;
         console.log(this.data);
+        
+      this.node.children[6]._components[0].string = this.data.userid;
+      this.node.children[8]._components[0].string = this.data.core;
     },
 
     start () {
@@ -50,7 +53,7 @@ cc.Class({
         cc.director.loadScene("setting");
     },
     createClick(event){
-
+        cc.director.loadScene("room");
     },
     enterClick(event){
         cc.director.loadScene("findroom");
