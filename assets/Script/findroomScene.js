@@ -21,7 +21,6 @@ cc.Class({
   },
 
   onLoad:function() {
-    this.node.children[2].active = false;
     this.btn_1.node.on("click", this.key1Click, this);
     this.btn_2.node.on("click", this.key2Click, this);
     this.btn_3.node.on("click", this.key3Click, this);
