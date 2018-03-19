@@ -1,4 +1,5 @@
-var URL = "http://127.0.0.1:8080";
+var URL = "http://192.168.1.12:8080";
+// 随着本地机器改动
 
 var HTTP = cc.Class({
     extends: cc.Component,

@@ -55,25 +55,25 @@ cc.Class({
     var onLogin = function(res) {
       if (res.status == 1) {
         Alert.show("登录成功！", null, false, 0.2);
+        com.data = {
+          userid: res.username,
+          core: res.core,
+          roomid: 0,
+          isLogin: 1,
+          sceneType: 0
+        };
+        setTimeout(
+          ()=>{
+            if (com.data.isLogin == 1) {
+              cc.director.loadScene("index");
+            }
+          },1500
+        )
       } else if (res.status == 0) {
         Alert.show("登录失败！账号不存在！", null, false, 0.2);
       } else if (res.status == 2) {
         Alert.show("登录失败！密码错误！", null, false, 0.2);
       }
-      com.data = {
-        userid: res.username,
-        core: res.core,
-        roomid: 0,
-        isLogin: 1,
-        sceneType: 0
-      };
-      setTimeout(
-        ()=>{
-          if (com.data.isLogin == 1) {
-            cc.director.loadScene("index");
-          }
-        },1500
-      )
     };
     if (!this.userinfo.userid) {
       Alert.show("请输入账号！", null, false, 0.2);
