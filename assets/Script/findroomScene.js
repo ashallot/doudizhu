@@ -1,4 +1,5 @@
 var com = require("Common");
+cc.http = require("HTTP");
 cc.Class({
   extends: cc.Component,
 
@@ -157,9 +158,7 @@ cc.Class({
     this.node.children[1].children[2]._components[0].string = this.roomid.join('');
   },
   http:function(){
-    this.node.children[2].active = true;
-    setTimeout(() => {
-        this.node.children[2].active = false;
-      }, 1000);
+    Alert.show("房间不存在", null, false, 0.2);
+    //   cc.http.sendRequest("/game/room/findroom", data, onFind);
   }
 });

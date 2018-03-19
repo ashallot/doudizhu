@@ -1,4 +1,5 @@
 var com = require("Common");
+cc.http = require("HTTP");
 cc.Class({
   extends: cc.Component,
 
@@ -32,7 +33,6 @@ cc.Class({
 
   // use this for initialization
   onLoad: function() {
-    this.node.children[5].active = false;
     this.btn_login.node.on("click", this.loginClick, this);
     this.btn_register.node.on("click", this.registerClick, this);
     this.btn_setting.node.on("click", this.settingClick, this);
@@ -52,82 +52,86 @@ cc.Class({
   update: function(dt) {},
 
   loginClick(event) {
-    console.log("login");
-    console.log(this.userinfo);
-    if (!this.userinfo.userid) {
-      this.node.children[5].children[0]._components[0].string = "请输入账号！";
-      this.node.children[5].active = true;
-      this.timer();
-    } else if (this.userinfo.userid.toString().length != 8) {
-      this.node.children[5].children[0]._components[0].string =
-        "请输入8位账号！";
-      this.node.children[5].active = true;
-      this.timer();
-    } else if (!this.userinfo.pwd) {
-      this.node.children[5].children[0]._components[0].string = "请输入密码！";
-      this.node.children[5].active = true;
-      this.timer();
-    } else {
-      // http
-
-      var userData = {
-        userid: this.userinfo.userid,
-        core: 100,
+    var onLogin = function(res) {
+      if (res.status == 1) {
+        Alert.show("登录成功！", null, false, 0.2);
+      } else if (res.status == 0) {
+        Alert.show("登录失败！账号不存在！", null, false, 0.2);
+      } else if (res.status == 2) {
+        Alert.show("登录失败！密码错误！", null, false, 0.2);
+      }
+      com.data = {
+        userid: res.username,
+        core: res.core,
         roomid: 0,
-        isLogin: true,
+        isLogin: 1,
         sceneType: 0
       };
+      setTimeout(
+        ()=>{
+          if (com.data.isLogin == 1) {
+            cc.director.loadScene("index");
+          }
+        },1500
+      )
+    };
+    if (!this.userinfo.userid) {
+      Alert.show("请输入账号！", null, false, 0.2);
+    } else if (this.userinfo.userid.toString().length != 8) {
+      Alert.show("请输入8位账号！", null, false, 0.2);
+    } else if (!this.userinfo.pwd) {
+      Alert.show("请输入密码！", null, false, 0.2);
+    } else {
+      var data = {
+        username: this.userinfo.userid,
+        password: this.userinfo.pwd
+      };
+      cc.http.sendRequest("/game/user/login", data, onLogin);
 
-      com.data = userData;
-
-      if (com.data.isLogin == true) {
-        cc.director.loadScene("index");
-      }
+      // if (com.data.isLogin == 1) {
+      //   cc.director.loadScene("index");
+      // }
     }
   },
   registerClick(event) {
     this.node.children[4].active = false;
-    console.log("register");
   },
   settingClick(event) {
-    console.log("setting");
     com.data.sceneType = 0;
     cc.director.loadScene("setting");
   },
   helpClick(event) {
-    console.log("help");
     com.data.sceneType = 0;
     cc.director.loadScene("help");
   },
   confirmClick(event) {
-    console.log("confirm");
-    console.log(this.user_reinfo);
+    var onRegister = function(res) {
+      if (res.status == 1) {
+        Alert.show("注册成功！返回登录！", null, false, 0.2);
+      } else if (res.status == 0) {
+        Alert.show("注册失败！账号已被使用！", null, false, 0.2);
+      } else if (res.status == 2) {
+        Alert.show("注册失败！服务器错误！", null, false, 0.2);
+      }
+    };
     if (!this.user_reinfo.userid_re) {
-      this.node.children[5].children[0]._components[0].string = "请输入账号！";
-      this.node.children[5].active = true;
-      this.timer();
+      Alert.show("请输入账号！", null, false, 0.2);
     } else if (this.user_reinfo.userid_re.toString().length != 8) {
-      this.node.children[5].children[0]._components[0].string =
-        "请输入8位账号！";
-      this.node.children[5].active = true;
-      this.timer();
+      Alert.show("请输入8位账号！", null, false, 0.2);
     } else if (!this.user_reinfo.pwd_re1 || !this.user_reinfo.pwd_re2) {
-      this.node.children[5].children[0]._components[0].string =
-        "请输入两次密码！";
-      this.node.children[5].active = true;
-      this.timer();
+      Alert.show("请输入两次密码！", null, false, 0.2);
     } else if (this.user_reinfo.pwd_re1 != this.user_reinfo.pwd_re2) {
-      this.node.children[5].children[0]._components[0].string =
-        "两次密码不一致！";
-      this.node.children[5].active = true;
-      this.timer();
+      Alert.show("两次密码不一致！", null, false, 0.2);
+    } else {
+      var data = {
+        username: this.user_reinfo.userid_re,
+        password: this.user_reinfo.pwd_re1,
+        repassword: this.user_reinfo.pwd_re2
+      };
+      cc.http.sendRequest("/game/user/register", data, onRegister);
     }
-
-    // http
-    // isRegister false/true  注册是否成功
   },
   fanhuiClick(event) {
-    console.log("fanhui");
     this.node.children[4].active = true;
   },
 
@@ -146,10 +150,5 @@ cc.Class({
   },
   pwd_re2Input: function(text, editbox, customEventData) {
     this.user_reinfo.pwd_re2 = text;
-  },
-  timer:function(){
-    setTimeout(() => {
-      this.node.children[5].active = false;
-    }, 1000);
   }
 });

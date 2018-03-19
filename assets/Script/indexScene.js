@@ -8,7 +8,7 @@ cc.Class({
             userid:0,
             core:0,
             roomid:0,
-            isLogin:true,
+            isLogin:1,
             sceneType:0,
             // sceneType 0:login 1:index 2:room 
         },
@@ -41,7 +41,7 @@ cc.Class({
 
     logoutClick(event){
         // http
-        com.data.isLogin = false;
+        com.data.isLogin = 0;
         cc.director.loadScene("login");
     },
     helpClick(event){
