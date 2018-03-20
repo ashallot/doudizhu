@@ -29,8 +29,8 @@ cc.Class({
         this.data = com.data;
         console.log(this.data);
         
-      this.node.children[6]._components[0].string = this.data.userid;
-      this.node.children[8]._components[0].string = this.data.core;
+      this.node.children[7]._components[0].string = this.data.userid;
+      this.node.children[9]._components[0].string = this.data.core;
     },
 
     start () {

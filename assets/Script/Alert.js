@@ -88,11 +88,9 @@ Alert.show = function (detailString, enterCallBack, needCancel, animSpeed) {
         Alert._alert.setScale(0.3);
         Alert._alert.opacity = 0;
         Alert._alert.runAction(self.actionFadeIn);
-        setTimeout(
-            ()=>{
-                self.startFadeOut()
-            },1000
-        )
+        setTimeout(function() {
+            self.startFadeOut();
+          }, 1000);
     };
 
     // 执行弹出动画

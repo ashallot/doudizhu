@@ -28,7 +28,8 @@ cc.Class({
 
     input_zhanghao_re: cc.EditBox,
     input_pwd_re1: cc.EditBox,
-    input_pwd_re2: cc.EditBox
+    input_pwd_re2: cc.EditBox,
+
   },
 
   // use this for initialization
@@ -45,7 +46,7 @@ cc.Class({
 
     this.input_zhanghao_re.node.on("editbox", this.zhanghao_reInput, this);
     this.input_pwd_re1.node.on("editbox", this.pwd_re1Input, this);
-    this.input_pwd_re2.node.on("editbox", this.pwd_re2Input, this);
+    this.input_pwd_re2.node.on("editbox", this.pwd_re2Input, this);    
   },
 
   // called every frame
@@ -62,13 +63,11 @@ cc.Class({
           isLogin: 1,
           sceneType: 0
         };
-        setTimeout(
-          ()=>{
-            if (com.data.isLogin == 1) {
-              cc.director.loadScene("index");
-            }
-          },1500
-        )
+        setTimeout(function() {
+          if (com.data.isLogin == 1) {
+            cc.director.loadScene("index");
+          }
+        }, 1500);
       } else if (res.status == 0) {
         Alert.show("登录失败！账号不存在！", null, false, 0.2);
       } else if (res.status == 2) {
@@ -94,6 +93,7 @@ cc.Class({
     }
   },
   registerClick(event) {
+    com.data.btntouch = 1;
     this.node.children[4].active = false;
   },
   settingClick(event) {
