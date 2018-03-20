@@ -56,13 +56,9 @@ cc.Class({
     var onLogin = function(res) {
       if (res.status == 1) {
         Alert.show("登录成功！", null, false, 0.2);
-        com.data = {
-          userid: res.username,
-          core: res.core,
-          roomid: 0,
-          isLogin: 1,
-          sceneType: 0
-        };
+        com.data.userid = res.username;
+        com.data.core = res.core;
+        com.data.isLogin = 1;
         setTimeout(function() {
           if (com.data.isLogin == 1) {
             cc.director.loadScene("index");
@@ -93,7 +89,7 @@ cc.Class({
     }
   },
   registerClick(event) {
-    com.data.btntouch = 1;
+    com.data.btntouch = true;
     this.node.children[4].active = false;
   },
   settingClick(event) {
@@ -107,7 +103,7 @@ cc.Class({
   confirmClick(event) {
     var onRegister = function(res) {
       if (res.status == 1) {
-        Alert.show("注册成功！返回登录！", null, false, 0.2);
+        Alert.show("注册成功！请返回登录！", null, false, 0.2);
       } else if (res.status == 0) {
         Alert.show("注册失败！账号已被使用！", null, false, 0.2);
       } else if (res.status == 2) {

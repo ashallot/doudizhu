@@ -1,25 +1,25 @@
-var com = require('Common');  
+var com = require('Common');
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        data:{
-            default:null,
-            userid:0,
-            core:0,
-            roomid:0,
-            isLogin:1,
-            sceneType:0,
-            // sceneType 0:login 1:index 2:room 
+        data: {
+            default: null,
+            userid: 0,
+            core: 0,
+            roomid: 0,
+            isLogin: 1,
+            sceneType: 0,
+            // sceneType 0:login 1:index 2:room
         },
-      btn_logout: cc.Button,
-      btn_help: cc.Button,
-      btn_setting: cc.Button,
-      btn_create: cc.Button,
-      btn_enter: cc.Button,
+        btn_logout: cc.Button,
+        btn_help: cc.Button,
+        btn_setting: cc.Button,
+        btn_create: cc.Button,
+        btn_enter: cc.Button,
     },
 
-    onLoad () {
+    onLoad() {
         this.btn_logout.node.on("click", this.logoutClick, this);
         this.btn_help.node.on("click", this.helpClick, this);
         this.btn_setting.node.on("click", this.settingClick, this);
@@ -28,34 +28,34 @@ cc.Class({
 
         this.data = com.data;
         console.log(this.data);
-        
-      this.node.children[7]._components[0].string = this.data.userid;
-      this.node.children[9]._components[0].string = this.data.core;
+
+        this.node.children[7]._components[0].string = this.data.userid;
+        this.node.children[9]._components[0].string = this.data.core;
     },
 
-    start () {
+    start() {
 
     },
 
-    update (dt) {},
+    update(dt) { },
 
-    logoutClick(event){
+    logoutClick(event) {
         // http
         com.data.isLogin = 0;
         cc.director.loadScene("login");
     },
-    helpClick(event){
+    helpClick(event) {
         com.data.sceneType = 1;
         cc.director.loadScene("help");
     },
-    settingClick(event){
+    settingClick(event) {
         com.data.sceneType = 1;
         cc.director.loadScene("setting");
     },
-    createClick(event){
+    createClick(event) {
         cc.director.loadScene("room");
     },
-    enterClick(event){
+    enterClick(event) {
         cc.director.loadScene("findroom");
     },
 });
