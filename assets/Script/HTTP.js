@@ -10,7 +10,7 @@ var HTTP = cc.Class({
         userId : 0,
         master_url:URL,
         url:URL,
-        sendRequest : function(path,data,handler,extraUrl){
+        sendRequest : function(path,method,data,handler,extraUrl){
             var xhr = cc.loader.getXMLHttpRequest();
             xhr.timeout = 5000;
             var str = "?";
@@ -25,7 +25,7 @@ var HTTP = cc.Class({
             }
             var requestURL = extraUrl + path + encodeURI(str);
             console.log("RequestURL:" + requestURL);
-            xhr.open("POST",requestURL, true);
+            xhr.open(method,requestURL, true);
             if (cc.sys.isNative){
                 xhr.setRequestHeader("Accept-Encoding","gzip,deflate","text/html;charset=UTF-8");
             }

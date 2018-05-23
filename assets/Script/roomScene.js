@@ -1,4 +1,5 @@
 var com = require("Common");
+var gameMgr = require("gameMgr");
 cc.Class({
     extends: cc.Component,
 
@@ -21,10 +22,27 @@ cc.Class({
 
     update (dt) {},
     backclick(event){
-        cc.director.loadScene("index");
+        this.leaveRoom();
     },
     readyclick(event){
         this.node.children[1].active = false;
         this.node.children[2].active = true;
     },
+    leaveRoom() {
+        var self = this;
+        var onCreate = function (ret) {
+            console.log(ret)
+            gameMgr.leaveGameServer(ret)
+            cc.director.loadScene("index");
+        };
+
+        var data = {
+            userid:com.data.userid,
+            roomid:com.data.roomid
+        };
+        // var data = '/'+com.data.userid+'/'+com.data.roomid
+        console.log(data);
+        cc.http.sendRequest("/game/room/leave_room","put", data, onCreate);
+        
+    }
 });

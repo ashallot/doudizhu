@@ -1,4 +1,5 @@
 var com = require('Common');
+var gameMgr = require("gameMgr");
 cc.Class({
     extends: cc.Component,
 
@@ -53,9 +54,28 @@ cc.Class({
         cc.director.loadScene("setting");
     },
     createClick(event) {
-        cc.director.loadScene("room");
+        this.createRoom();
     },
     enterClick(event) {
         cc.director.loadScene("findroom");
     },
+    createRoom() {
+        var self = this;
+        var onCreate = function (ret) {
+            console.log(ret)
+            gameMgr.connectGameServer(ret)
+            com.data.roomid = ret.roomid;
+            cc.director.loadScene("room");
+        };
+
+        var data = {
+            userid:com.data.userid
+        };
+        console.log(data);
+        Alert.show("正在创建房间", null, false, 0.2);
+        setTimeout(function() {
+            cc.http.sendRequest("/game/room/create_private_room","post", data, onCreate);
+        }, 2000);
+        
+    }
 });

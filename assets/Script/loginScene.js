@@ -81,11 +81,7 @@ cc.Class({
         username: this.userinfo.userid,
         password: this.userinfo.pwd
       };
-      cc.http.sendRequest("/game/user/login", data, onLogin);
-
-      // if (com.data.isLogin == 1) {
-      //   cc.director.loadScene("index");
-      // }
+      cc.http.sendRequest("/game/user/login","post", data, onLogin);
     }
   },
   registerClick(event) {
@@ -124,7 +120,7 @@ cc.Class({
         password: this.user_reinfo.pwd_re1,
         repassword: this.user_reinfo.pwd_re2
       };
-      cc.http.sendRequest("/game/user/register", data, onRegister);
+      cc.http.sendRequest("/game/user/register","post", data, onRegister);
     }
   },
   fanhuiClick(event) {
